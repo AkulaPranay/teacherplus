@@ -434,13 +434,16 @@ $activeYear = $years[0] ?? date('Y');
       <div class="mag-card">
         <div class="mag-cover-wrap">
           <?php if (!empty($mag['cover_image'])): 
-              $clean_cover = ltrim($mag['cover_image'], './');
-              $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
-          ?>
-            <img src="/<?= htmlspecialchars($clean_cover) ?>"
+              $clean_cover = ltrim($mag['cover_image'] ?? '', './');
+          $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
+      ?>
+      <div class="mag-card">
+        <div class="mag-cover-wrap">
+          <?php if (!empty($clean_cover)): ?>
+            <img src="/teacherplus/<?= htmlspecialchars($clean_cover) ?>"
                  alt="<?= htmlspecialchars($mag['title']) ?>"
                  class="flipbook-trigger"
-                 data-pdf="/<?= htmlspecialchars($clean_pdf) ?>"
+                 data-pdf="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>"
                  data-title="<?= htmlspecialchars($mag['title']) ?>">
           <?php else: ?>
             <div class="mag-no-cover">No Cover</div>
@@ -451,12 +454,12 @@ $activeYear = $years[0] ?? date('Y');
         
         <?php if (hasFullAccess()): ?>
           <button class="mag-btn mag-btn-primary flipbook-trigger"
-                  data-pdf="/<?= htmlspecialchars($clean_pdf) ?>"
+                  data-pdf="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>"
                   data-title="<?= htmlspecialchars($mag['title']) ?>">
             📖 Read Flipbook
           </button>
           
-          <a href="/<?= htmlspecialchars($clean_pdf) ?>" 
+          <a href="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>" 
              download 
              class="mag-btn mag-btn-download">⬇ Download PDF</a>
         <?php else: ?>

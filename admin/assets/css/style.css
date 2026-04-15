@@ -1,0 +1,80 @@
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY & COLORS – TeacherPlus Website
+   ========================================================================== */
+
+/* ── Font Family ── */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #53585c;
+    font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #f87407;
+}
+
+.text-primary, a {
+    color: #3d348b;
+}
+
+.btn-orange, .btn-warning {
+    background-color: #f87407 !important;
+    border-color: #f87407 !important;
+}
+/* Override blue headings only where needed (e.g. hero, sections) */
+.hero h1, .section-title, .text-primary {
+    color: #3d348b; /* Blue for specific prominent headings */
+}
+
+/* ── Links ── */
+a {
+    color: #3d348b;
+    text-decoration: none;
+}
+a:hover {
+    color: #f87407;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    background-color: #3d348b;
+    border-color: #3d348b;
+}
+.btn-primary:hover {
+    background-color: #2c2568;
+    border-color: #2c2568;
+}
+
+.btn-orange, .btn-warning {
+    background-color: #f87407 !important;
+    border-color: #f87407 !important;
+    color: white !important;
+}
+.btn-orange:hover, .btn-warning:hover {
+    background-color: #e06200 !important;
+    border-color: #e06200 !important;
+}
+
+/* ── Form Elements ── */
+.form-control, .form-select {
+    border-color: #ced4da;
+    color: #53585c;
+    font-size: 16px;
+}
+.form-control:focus {
+    border-color: #f87407;
+    box-shadow: 0 0 0 0.25rem rgba(248, 116, 7, 0.25);
+}
+
+/* ── Common Utilities ── */
+.text-orange { color: #f87407 !important; }
+.bg-orange { background-color: #f87407 !important; }
+.text-blue { color: #3d348b !important; }
+.bg-blue { background-color: #3d348b !important; }
+
+.fs-16 { font-size: 16px !important; }
+
+/* Optional: Improve readability on dark backgrounds */
+.text-white .text-orange { color: #ff9a3d !important; } /* lighter orange for contrast */

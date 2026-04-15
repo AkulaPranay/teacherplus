@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ── Base ── */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #53585c;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+    color: #f87407;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* ── Links ── */
+a {
+    color: #3d348b;
+    text-decoration: none;
+}
+a:hover {
+    color: #f87407;
+}
+
+/* ── Bootstrap btn-primary override → brand blue/purple ── */
+.btn-primary {
+    background-color: #3d348b !important;
+    border-color: #3d348b !important;
+    color: #fff !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #2c2568 !important;
+    border-color: #2c2568 !important;
+    color: #fff !important;
+}
+
+/* ── Bootstrap btn-success override → brand orange ── */
+.btn-success {
+    background-color: #f87407 !important;
+    border-color: #f87407 !important;
+    color: #fff !important;
+}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active {
+    background-color: #e06200 !important;
+    border-color: #e06200 !important;
+    color: #fff !important;
+}
+
+/* ── Bootstrap btn-info override → brand blue/purple ── */
+.btn-info {
+    background-color: #3d348b !important;
+    border-color: #3d348b !important;
+    color: #fff !important;
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: #2c2568 !important;
+    border-color: #2c2568 !important;
+    color: #fff !important;
+}
+
+/* ── Bootstrap btn-warning override → brand orange ── */
+.btn-warning {
+    background-color: #f87407 !important;
+    border-color: #f87407 !important;
+    color: #fff !important;
+}
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active {
+    background-color: #e06200 !important;
+    border-color: #e06200 !important;
+    color: #fff !important;
+}
+
+/* ── Bootstrap btn-outline-primary override ── */
+.btn-outline-primary {
+    color: #3d348b !important;
+    border-color: #3d348b !important;
+}
+.btn-outline-primary:hover {
+    background-color: #3d348b !important;
+    color: #fff !important;
+}
+
+/* ── Custom named buttons ── */
+.btn-orange {
+    background-color: #f87407 !important;
+    border-color: #f87407 !important;
+    color: #fff !important;
+}
+.btn-orange:hover {
+    background-color: #e06200 !important;
+    border-color: #e06200 !important;
+    color: #fff !important;
+}
+
+/* ── Badge ── */
+.badge-category {
+    background-color: #f87407;
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+/* ── Form focus ── */
+.form-control:focus,
+.form-select:focus {
+    border-color: #f87407;
+    box-shadow: 0 0 0 0.25rem rgba(248, 116, 7, 0.25);
+}
+
+/* ── Utilities ── */
+.text-orange { color: #f87407 !important; }
+.bg-orange   { background-color: #f87407 !important; }
+.text-blue   { color: #3d348b !important; }
+.bg-blue     { background-color: #3d348b !important; }

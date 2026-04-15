@@ -1,0 +1,6 @@
+{
+  "provider": "php",
+  "phpVersion": "8.2",
+  "extensions": ["mysqli", "pdo_mysql"],
+  "startCommand": "php -S 0.0.0.0:$PORT -t public"
+}

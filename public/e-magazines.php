@@ -423,18 +423,13 @@ $activeYear = $years[0] ?? date('Y');
       </button>
     <?php endforeach; ?>
   </div>
-  <hr class="emag-divider">
+ <hr class="emag-divider">
 
-  <!-- Magazine grids per year -->
   <?php foreach ($magazines as $year => $issues): ?>
-  <div class="emag-grid-section <?php echo $year === $activeYear ? 'active' : ''; ?>"
-       id="year-<?php echo $year; ?>">
+  <div class="emag-grid-section <?= $year === $activeYear ? 'active' : '' ?>" id="year-<?= $year ?>">
     <div class="emag-grid">
-      <?php foreach ($issues as $mag): ?>
-      <div class="mag-card">
-        <div class="mag-cover-wrap">
-          <?php if (!empty($mag['cover_image'])): 
-              $clean_cover = ltrim($mag['cover_image'] ?? '', './');
+      <?php foreach ($issues as $mag): 
+          $clean_cover = ltrim($mag['cover_image'] ?? '', './');
           $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
       ?>
       <div class="mag-card">
@@ -470,7 +465,6 @@ $activeYear = $years[0] ?? date('Y');
     </div>
   </div>
   <?php endforeach; ?>
-
 </div>
 
 <!-- ── Flipbook Modal ── -->

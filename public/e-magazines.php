@@ -434,13 +434,16 @@ $activeYear = $years[0] ?? date('Y');
       <div class="mag-card">
 
         <div class="mag-cover-wrap">
-          <?php if (!empty($mag['cover_image'])): ?>
-            <img src="../<?php echo htmlspecialchars($mag['cover_image']); ?>"
-                 alt="<?php echo htmlspecialchars($mag['title']); ?>"
-                 class="flipbook-trigger"
-                 data-pdf="../<?php echo htmlspecialchars($mag['pdf_file']); ?>"
-                 data-title="<?php echo htmlspecialchars($mag['title']); ?>">
-          <?php else: ?>
+       <?php if (!empty($mag['cover_image'])): 
+    $clean_cover = ltrim($mag['cover_image'], './');
+    $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
+?>
+    <img src="/<?= htmlspecialchars($clean_cover) ?>"
+         alt="<?= htmlspecialchars($mag['title']) ?>"
+         class="flipbook-trigger"
+         data-pdf="/<?= htmlspecialchars($clean_pdf) ?>"
+         data-title="<?= htmlspecialchars($mag['title']) ?>">
+<?php else: ?>
             <div class="mag-no-cover">No Cover</div>
           <?php endif; ?>
         </div>
@@ -453,8 +456,7 @@ $activeYear = $years[0] ?? date('Y');
                   data-title="<?php echo htmlspecialchars($mag['title']); ?>">
             📖 Read Flipbook
           </button>
-          <a href="../<?php echo htmlspecialchars($mag['pdf_file']); ?>"
-             download
+<a href="/<?= htmlspecialchars(ltrim($mag['pdf_file'] ?? '', './')) ?>             download
              class="mag-btn mag-btn-download">⬇ Download PDF</a>
         <?php else: ?>
           <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>

@@ -428,7 +428,7 @@ $activeYear = $years[0] ?? date('Y');
   <?php foreach ($magazines as $year => $issues): ?>
   <div class="emag-grid-section <?= $year === $activeYear ? 'active' : '' ?>" id="year-<?= $year ?>">
     <div class="emag-grid">
-      <?php foreach ($issues as $mag): 
+           <?php foreach ($issues as $mag): 
           $clean_cover = ltrim($mag['cover_image'] ?? '', './');
           $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
       ?>
@@ -461,8 +461,7 @@ $activeYear = $years[0] ?? date('Y');
           <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>
         <?php endif; ?>
       </div>
-      <?php endforeach; ?>
-    </div>
+      <?php endforeach; ?>    </div>
   </div>
   <?php endforeach; ?>
 </div>

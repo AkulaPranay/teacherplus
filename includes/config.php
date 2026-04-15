@@ -9,11 +9,14 @@ define('DB_PASS', '');           // empty for local XAMPP, or your password
 define('DB_NAME', 'teacherplus_db');
 
 // Connect
-getenv('MYSQLHOST'),
+$conn = new mysqli(
+    getenv('MYSQLHOST'),
     getenv('MYSQLUSER'),
     getenv('MYSQLPASSWORD'),
     getenv('MYSQLDATABASE'),
-    getenv('MYSQLPORT')if ($conn->connect_error) {
+    getenv('MYSQLPORT')
+);
+if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $conn->set_charset("utf8mb4");

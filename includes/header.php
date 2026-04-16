@@ -171,7 +171,7 @@ $display_name = $is_logged_in ? ($_SESSION['full_name'] ?? $_SESSION['username']
 <header>
     <!-- Top Header -->
     <div class="top-header">
-        <div class="logo"><img src="../public/uploads/Teacher-Plus-logo-black-2048x1590.png" alt=""></div>
+        <div class="logo"><img src="Teacher-Plus-logo-black-2048x1590.png" alt=""></div>
 
         <div class="header-buttons" style="display:flex; align-items:center; gap:10px;">
             <?php if ($is_logged_in): ?>

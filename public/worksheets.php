@@ -146,8 +146,7 @@ $worksheets_result = $stmt->get_result();
                 <?php 
                 $pdf_url = '';
                 if (!empty($ws['pdf_file'])) {
-                    $pdf_path = ltrim($ws['pdf_file'], '/');
-                    $pdf_url = '../' . $pdf_path;
+                    $pdf_url = $ws['pdf_file']; 
                 }
                 ?>
                 <li>

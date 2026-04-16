@@ -16,6 +16,7 @@ $DB_PASS = getenv('MYSQLPASSWORD') ?: 'JCGCmYBJsQbfPKLnRQVTkMmvFWoZWlsW'; // ðŸ”
 $DB_NAME = getenv('MYSQLDATABASE') ?: 'railway';
 $DB_PORT = getenv('MYSQLPORT') ?: 44527;
 
+$conn->query("SET SESSION sql_mode = ''");
 /*
 |--------------------------------------------------------------------------
 | DATABASE CONNECTION

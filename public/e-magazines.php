@@ -423,47 +423,53 @@ $activeYear = $years[0] ?? date('Y');
       </button>
     <?php endforeach; ?>
   </div>
- <hr class="emag-divider">
+  <hr class="emag-divider">
 
+  <!-- Magazine grids per year -->
   <?php foreach ($magazines as $year => $issues): ?>
-  <div class="emag-grid-section <?= $year === $activeYear ? 'active' : '' ?>" id="year-<?= $year ?>">
+  <div class="emag-grid-section <?php echo $year === $activeYear ? 'active' : ''; ?>"
+       id="year-<?php echo $year; ?>">
     <div class="emag-grid">
-           <?php foreach ($issues as $mag): 
-          $clean_cover = ltrim($mag['cover_image'] ?? '', './');
-          $clean_pdf   = ltrim($mag['pdf_file'] ?? '', './');
-      ?>
+      <?php foreach ($issues as $mag): ?>
       <div class="mag-card">
+
+        <?php
+            $coverSrc = '/' . ltrim($mag['cover_image'], '/');
+            $pdfSrc   = '/' . ltrim($mag['pdf_file'], '/');
+        ?>
         <div class="mag-cover-wrap">
-          <?php if (!empty($clean_cover)): ?>
-            <img src="/teacherplus/<?= htmlspecialchars($clean_cover) ?>"
-                 alt="<?= htmlspecialchars($mag['title']) ?>"
+          <?php if (!empty($mag['cover_image'])): ?>
+            <img src="<?php echo htmlspecialchars($coverSrc); ?>"
+                 alt="<?php echo htmlspecialchars($mag['title']); ?>"
                  class="flipbook-trigger"
-                 data-pdf="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>"
-                 data-title="<?= htmlspecialchars($mag['title']) ?>">
+                 data-pdf="<?php echo htmlspecialchars($pdfSrc); ?>"
+                 data-title="<?php echo htmlspecialchars($mag['title']); ?>">
           <?php else: ?>
             <div class="mag-no-cover">No Cover</div>
           <?php endif; ?>
         </div>
-        
-        <div class="mag-title"><?= htmlspecialchars($mag['title']) ?></div>
-        
+
+        <div class="mag-title"><?php echo htmlspecialchars($mag['title']); ?></div>
+
         <?php if (hasFullAccess()): ?>
           <button class="mag-btn mag-btn-primary flipbook-trigger"
-                  data-pdf="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>"
-                  data-title="<?= htmlspecialchars($mag['title']) ?>">
+                  data-pdf="<?php echo htmlspecialchars($pdfSrc); ?>"
+                  data-title="<?php echo htmlspecialchars($mag['title']); ?>">
             📖 Read Flipbook
           </button>
-          
-          <a href="/teacherplus/<?= htmlspecialchars($clean_pdf) ?>" 
-             download 
+          <a href="<?php echo htmlspecialchars($pdfSrc); ?>"
+             download
              class="mag-btn mag-btn-download">⬇ Download PDF</a>
         <?php else: ?>
           <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>
         <?php endif; ?>
+
       </div>
-      <?php endforeach; ?>    </div>
+      <?php endforeach; ?>
+    </div>
   </div>
   <?php endforeach; ?>
+
 </div>
 
 <!-- ── Flipbook Modal ── -->

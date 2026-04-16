@@ -47,6 +47,11 @@ function get_staff_emails($conn) {
     }
     return $emails;
 }
+function asset_path($path) {
+    if (empty($path)) return '';
+    if (str_starts_with($path, 'http')) return $path; // already full URL
+    return '/' . ltrim($path, '/');                   // local fallback
+}
 
 /*
 |--------------------------------------------------------------------------

@@ -9,20 +9,17 @@ if (session_status() === PHP_SESSION_NONE) {
 | DATABASE CONFIG (Railway MySQL)
 |--------------------------------------------------------------------------
 */
-
-$DB_HOST = getenv('MYSQLHOST') ?: 'monorail.proxy.rlwy.net';
-$DB_USER = getenv('MYSQLUSER') ?: 'root';
-$DB_PASS = getenv('MYSQLPASSWORD') ?: 'JCGCmYBJsQbfPKLnRQVTkMmvFWoZWlsW'; // 🔴 replace this
+$DB_HOST = getenv('MYSQLHOST')     ?: 'monorail.proxy.rlwy.net';
+$DB_USER = getenv('MYSQLUSER')     ?: 'root';
+$DB_PASS = getenv('MYSQLPASSWORD') ?: 'JCGCmYBJsQbfPKLnRQVTkMmvFWoZWlsW';
 $DB_NAME = getenv('MYSQLDATABASE') ?: 'railway';
-$DB_PORT = getenv('MYSQLPORT') ?: 44527;
+$DB_PORT = getenv('MYSQLPORT')     ?: 44527;
 
-$conn->query("SET SESSION sql_mode = ''");
 /*
 |--------------------------------------------------------------------------
 | DATABASE CONNECTION
 |--------------------------------------------------------------------------
 */
-
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME, $DB_PORT);
 
 if ($conn->connect_error) {
@@ -32,23 +29,22 @@ if ($conn->connect_error) {
 // Set charset
 $conn->set_charset("utf8mb4");
 
+// Fix strict MySQL mode (must be AFTER connection)
+$conn->query("SET SESSION sql_mode = ''");
+
 /*
 |--------------------------------------------------------------------------
 | HELPER FUNCTIONS
 |--------------------------------------------------------------------------
 */
-
-// Get all staff emails
 function get_staff_emails($conn) {
     $emails = [];
     $result = $conn->query("SELECT email FROM users WHERE role = 'staff'");
-    
     if ($result) {
         while ($row = $result->fetch_assoc()) {
             $emails[] = $row['email'];
         }
     }
-    
     return $emails;
 }
 
@@ -57,11 +53,6 @@ function get_staff_emails($conn) {
 | BASE SETTINGS
 |--------------------------------------------------------------------------
 */
-
-// Adjust if needed
 define('BASE_URL', '/');
-
-// Timezone
 date_default_timezone_set('UTC');
-
 ?>

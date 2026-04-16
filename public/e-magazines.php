@@ -474,12 +474,6 @@ $activeYear = $years[0] ?? date('Y');
 
       </div>
       <?php endforeach; ?>
-        <?php else: ?>
-          <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>
-        <?php endif; ?>
-
-      </div>
-      <?php endforeach; ?>
     </div>
   </div>
   <?php endforeach; ?>

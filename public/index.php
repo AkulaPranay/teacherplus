@@ -40,8 +40,8 @@ for ($i = 1; $i <= 3; $i++) {
     $m = (int)$dt->format('n');
     $y = (int)$dt->format('Y');
 
-    $monthName = strtolower($dt->format('F')); // e.g. "march"
-    $titlePattern = '%' . $monthName . '%' . $y . '%'; // e.g. "%march%2026%"
+    $monthName = strtolower($dt->format('F'));
+    $titlePattern = '%' . $monthName . '%' . $y . '%';
     $ms = $conn->prepare("SELECT id, cover_image, title FROM e_magazines WHERE status='published' AND LOWER(title) LIKE ? ORDER BY id DESC LIMIT 1");
     $ms->bind_param("s", $titlePattern);
     $ms->execute();
@@ -57,8 +57,12 @@ for ($i = 1; $i <= 3; $i++) {
     $pastMonths[] = ['label' => $dt->format('F Y'), 'year' => $y, 'mag' => $mag, 'articles' => $arts];
 }
 
-// DEBUG — remove after fixing (shows what cover_image paths are found)
-// foreach ($pastMonths as $pm) { echo $pm['label'] . ': ' . ($pm['mag']['cover_image'] ?? 'NOT FOUND') . '<br>'; } exit;
+function asset_url($path) {
+    if (empty($path)) return '';
+    return (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0)
+        ? $path
+        : '../' . ltrim($path, '/');
+}
 
 function tp_ex($t, $len = 170) {
     $p = strip_tags($t);
@@ -188,14 +192,14 @@ include '../includes/header.php';
 </style>
 
 <div class="tp-page">
-    
+
     <!-- 🔥 TOP AD START -->
     <?php $ads = getAds($conn, 'homepage_top'); ?>
     <?php if ($ads->num_rows > 0): ?>
     <div class="text-center mb-3">
         <?php while ($ad = $ads->fetch_assoc()): ?>
             <a href="<?= $ad['link_url'] ?>" target="_blank">
-                <img src="../<?= $ad['image_path'] ?>" class="img-fluid" style="max-height:90px;">
+                <img src="<?= htmlspecialchars(asset_url($ad['image_path'])) ?>" class="img-fluid" style="max-height:90px;">
             </a>
         <?php endwhile; ?>
     </div>
@@ -210,7 +214,7 @@ include '../includes/header.php';
             <span class="tp-badge-orange"><?php echo strtoupper($currentMonthLabel); ?></span>
             <?php if ($currentMag && !empty($currentMag['cover_image'])): ?>
                 <a href="e-magazines.php">
-                    <img src="../<?php echo htmlspecialchars($currentMag['cover_image']); ?>"
+                    <img src="<?php echo htmlspecialchars(asset_url($currentMag['cover_image'])); ?>"
                          alt="<?php echo htmlspecialchars($currentMag['title']); ?>">
                 </a>
                 <div class="tp-cover-caption">
@@ -231,7 +235,7 @@ include '../includes/header.php';
             <span class="tp-badge-grey">Editorial</span>
             <?php if ($editorial && !empty($editorial['featured_image'])): ?>
                 <img class="tp-ed-img"
-                     src="../<?php echo htmlspecialchars($editorial['featured_image']); ?>"
+                     src="<?php echo htmlspecialchars(asset_url($editorial['featured_image'])); ?>"
                      alt="editorial">
             <?php else: ?>
                 <div class="tp-ed-icon">
@@ -243,17 +247,19 @@ include '../includes/header.php';
                         <line x1="30" y1="54" x2="30" y2="70" stroke="#999" stroke-width="1.5"/>
                     </svg>
                 </div>
-                    <?php endif; ?>
-                    <?php $ads = getAds($conn, 'sidebar_right'); ?>
-        <?php if ($ads->num_rows > 0): ?>
-        <div>
-            <?php while ($ad = $ads->fetch_assoc()): ?>
-                <a href="<?= $ad['link_url'] ?>" target="_blank">
-                    <img src="/<?= $ad['image_path'] ?>" class="img-fluid mb-2">
-                </a>
-            <?php endwhile; ?>
-        </div>
-                    <?php endif; ?>
+            <?php endif; ?>
+
+            <?php $ads = getAds($conn, 'sidebar_right'); ?>
+            <?php if ($ads->num_rows > 0): ?>
+            <div>
+                <?php while ($ad = $ads->fetch_assoc()): ?>
+                    <a href="<?= $ad['link_url'] ?>" target="_blank">
+                        <img src="<?= htmlspecialchars(asset_url($ad['image_path'])) ?>" class="img-fluid mb-2">
+                    </a>
+                <?php endwhile; ?>
+            </div>
+            <?php endif; ?>
+
             <div class="tp-ed-body">
                 <?php if ($editorial): ?>
                     <div class="tp-ed-title">
@@ -291,7 +297,7 @@ include '../includes/header.php';
                 <div class="tp-week-cell">
                     <?php if (!empty($wr['featured_image'])): ?>
                         <a href="article.php?id=<?php echo $wr['id']; ?>">
-                            <img src="../<?php echo htmlspecialchars($wr['featured_image']); ?>"
+                            <img src="<?php echo htmlspecialchars(asset_url($wr['featured_image'])); ?>"
                                  alt="<?php echo htmlspecialchars($wr['title']); ?>">
                         </a>
                     <?php else: ?>
@@ -319,16 +325,17 @@ include '../includes/header.php';
         </div>
 
     </div><!-- /tp-top-row -->
-            <?php $ads = getAds($conn, 'between_sections'); ?>
-        <?php if ($ads->num_rows > 0): ?>
-        <div class="text-center my-4">
-            <?php while ($ad = $ads->fetch_assoc()): ?>
-                <a href="<?= $ad['link_url'] ?>" target="_blank">
-                    <img src="/<?= $ad['image_path'] ?>" class="img-fluid">
-                </a>
-            <?php endwhile; ?>
-        </div>
-        <?php endif; ?>
+
+    <?php $ads = getAds($conn, 'between_sections'); ?>
+    <?php if ($ads->num_rows > 0): ?>
+    <div class="text-center my-4">
+        <?php while ($ad = $ads->fetch_assoc()): ?>
+            <a href="<?= $ad['link_url'] ?>" target="_blank">
+                <img src="<?= htmlspecialchars(asset_url($ad['image_path'])) ?>" class="img-fluid">
+            </a>
+        <?php endwhile; ?>
+    </div>
+    <?php endif; ?>
 
 
     <!-- ══ THE WEEK BEFORE ══ -->
@@ -340,7 +347,7 @@ include '../includes/header.php';
             <?php if (!empty($lr['featured_image'])): ?>
                 <a href="article.php?id=<?php echo $lr['id']; ?>">
                     <img class="tp-art-thumb"
-                         src="../<?php echo htmlspecialchars($lr['featured_image']); ?>"
+                         src="<?php echo htmlspecialchars(asset_url($lr['featured_image'])); ?>"
                          alt="<?php echo htmlspecialchars($lr['title']); ?>">
                 </a>
             <?php else: ?>
@@ -380,7 +387,7 @@ include '../includes/header.php';
                 <?php if ($pm['mag'] && !empty($pm['mag']['cover_image'])): ?>
                     <a href="e-magazines.php?year=<?php echo $pm['year']; ?>">
                         <img class="tp-pm-cover"
-                             src="../<?php echo htmlspecialchars($pm['mag']['cover_image']); ?>"
+                             src="<?php echo htmlspecialchars(asset_url($pm['mag']['cover_image'])); ?>"
                              alt="<?php echo htmlspecialchars($pm['mag']['title'] ?? ''); ?>">
                     </a>
                 <?php else: ?>
@@ -395,19 +402,14 @@ include '../includes/header.php';
                 while ($pa = $pm['articles']->fetch_assoc()):
                     $pc++;
                     $monthLabel = strtoupper($pm['label']);
-                    // Build tag parts: month label + category (both orange like the image)
-                    $tagParts = [];
-                    // Split month label into month and year parts e.g. "MARCH 2026"
                     $mlParts = explode(' ', $monthLabel);
-                    $tagParts[] = '<span class="tp-pm-tag-month">' . $mlParts[0] . '</span>';
-                    if (!empty($mlParts[1])) {
-                        // year shown separately? No — image shows month + category together
-                    }
-                    if ($pa['category']): ?>
+                ?>
                 <li>
                     <div class="tp-pm-item-tags">
                         <span class="tp-pm-tag-month"><?php echo $mlParts[0]; ?></span>
-                        <span class="tp-pm-cat"><?php echo htmlspecialchars(strtoupper($pa['category'])); ?></span>
+                        <?php if ($pa['category']): ?>
+                            <span class="tp-pm-cat"><?php echo htmlspecialchars(strtoupper($pa['category'])); ?></span>
+                        <?php endif; ?>
                     </div>
                     <a class="tp-pm-title" href="article.php?id=<?php echo $pa['id']; ?>">
                         <?php echo htmlspecialchars($pa['title']); ?>
@@ -418,21 +420,6 @@ include '../includes/header.php';
                         <div class="tp-pm-excerpt"><?php echo $exc; ?></div>
                     <?php endif; ?>
                 </li>
-                    <?php else: ?>
-                <li>
-                    <div class="tp-pm-item-tags">
-                        <span class="tp-pm-tag-month"><?php echo $monthLabel; ?></span>
-                    </div>
-                    <a class="tp-pm-title" href="article.php?id=<?php echo $pa['id']; ?>">
-                        <?php echo htmlspecialchars($pa['title']); ?>
-                    </a>
-                    <div class="tp-pm-author"><?php echo htmlspecialchars($pa['author_name'] ?: 'Team'); ?></div>
-                    <?php $exc = tp_ex($pa['excerpt'] ?: $pa['body'], 170); ?>
-                    <?php if ($exc): ?>
-                        <div class="tp-pm-excerpt"><?php echo $exc; ?></div>
-                    <?php endif; ?>
-                </li>
-                    <?php endif; ?>
                 <?php endwhile; ?>
                 <?php if ($pc === 0): ?>
                     <li style="color:#bbb;font-size:12px;">No articles this month.</li>
@@ -466,14 +453,16 @@ include '../includes/header.php';
     </div>
 
 </div><!-- /tp-page -->
+
 <?php $ads = getAds($conn, 'homepage_bottom'); ?>
 <?php if ($ads->num_rows > 0): ?>
 <div class="text-center mt-4">
     <?php while ($ad = $ads->fetch_assoc()): ?>
         <a href="<?= $ad['link_url'] ?>" target="_blank">
-            <img src="/<?= $ad['image_path'] ?>" class="img-fluid">
+            <img src="<?= htmlspecialchars(asset_url($ad['image_path'])) ?>" class="img-fluid">
         </a>
     <?php endwhile; ?>
 </div>
 <?php endif; ?>
+
 <?php include '../includes/footer.php'; ?>

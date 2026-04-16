@@ -5,6 +5,15 @@ require '../includes/functions.php';
 $page_title = "E-Magazines - TeacherPlus";
 include '../includes/header.php';
 
+// Helper: works for both full URLs (Supabase/CDN) and local relative paths
+function emag_asset($path) {
+    if (empty($path)) return '';
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+        return $path; // already a full URL (Supabase, etc.)
+    }
+    return '/' . ltrim($path, '/'); // local path — make absolute
+}
+
 // Fetch all published magazines
 $result = $conn->query("
     SELECT id, title, issue_year, cover_image, pdf_file 
@@ -430,15 +439,14 @@ $activeYear = $years[0] ?? date('Y');
   <div class="emag-grid-section <?php echo $year === $activeYear ? 'active' : ''; ?>"
        id="year-<?php echo $year; ?>">
     <div class="emag-grid">
-      <?php foreach ($issues as $mag): ?>
+      <?php foreach ($issues as $mag):
+            $coverSrc = emag_asset($mag['cover_image']);
+            $pdfSrc   = emag_asset($mag['pdf_file']);
+      ?>
       <div class="mag-card">
 
-        <?php
-            $coverSrc = '/' . ltrim($mag['cover_image'], '/');
-            $pdfSrc   = '/' . ltrim($mag['pdf_file'], '/');
-        ?>
         <div class="mag-cover-wrap">
-          <?php if (!empty($mag['cover_image'])): ?>
+          <?php if (!empty($coverSrc)): ?>
             <img src="<?php echo htmlspecialchars($coverSrc); ?>"
                  alt="<?php echo htmlspecialchars($mag['title']); ?>"
                  class="flipbook-trigger"
@@ -460,6 +468,12 @@ $activeYear = $years[0] ?? date('Y');
           <a href="<?php echo htmlspecialchars($pdfSrc); ?>"
              download
              class="mag-btn mag-btn-download">⬇ Download PDF</a>
+        <?php else: ?>
+          <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>
+        <?php endif; ?>
+
+      </div>
+      <?php endforeach; ?>
         <?php else: ?>
           <a href="restricted-emag.php" class="mag-btn mag-btn-outline">Login to View</a>
         <?php endif; ?>
